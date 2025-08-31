@@ -1,0 +1,11 @@
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+mlflow==2.19.0
+keras
+tensorflow
+requests
+json5
+kagglehub

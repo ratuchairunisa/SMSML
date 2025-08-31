@@ -1,0 +1,29 @@
+{
+    "raw_shape": [
+        3858,
+        12
+    ],
+    "train_shape": [
+        3086,
+        12
+    ],
+    "test_shape": [
+        772,
+        12
+    ],
+    "features": [
+        "Bitcoin (USD)",
+        "Ethereum (USD)",
+        "Gold (USD per oz)",
+        "Cardano (ADA)",
+        "Binance Coin (BNB)",
+        "Ripple (XRP)",
+        "Dogecoin (DOGE)",
+        "Solana (SOL)",
+        "year",
+        "month",
+        "day",
+        "dayofweek"
+    ],
+    "scaler": "StandardScaler"
+}
