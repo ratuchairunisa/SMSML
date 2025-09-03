@@ -1,0 +1,39 @@
+name: Preprocessing
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'preprocessing/**'
+      - '.workflow/preprocessing.yml'
+
+jobs:
+  preprocessing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Create and activate venv SMSML_tf
+        run: |
+          python -m venv SMSML_tf
+          conda activate SMSML_tf
+          conda install --yes python=3.12
+          source SMSML_tf/bin/activate
+
+      - name: Install dependencies in venv
+        run: |
+          source SMSML_tf/bin/activate
+          python -m pip install --upgrade pip
+          pip install pandas numpy matplotlib seaborn scikit-learn tensorflow kagglehub
+
+      - name: Run preprocessing automation in venv
+        run: |
+          source SMSML_tf/bin/activate
+          python preprocessing/automate_ratu-chairunisa.py --csv-path preprocessing/crypto.csv --out-dir preprocessing/crypto_preprocessing
