@@ -1,0 +1,55 @@
+name: Preprocess Dataset
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  preprocess:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Setup Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.7'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Jalankan preprocessing script
+      - name: Run preprocessing script
+        run: |
+          mkdir -p processed
+          python preprocessing/automate_Ratu-Chairunisa.py \
+            --input raw_dataset/Crypto_Data_Since_2015.csv \
+            --output processed \
+            --n_past 30 --n_future 30
+
+      # Upload processed artifact (opsional)
+      - name: Upload processed artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: processed-data
+          path: processed/
+
+      # Commit hasil preprocessing ke repo
+      - name: Commit processed-data
+        run: |
+          git config --global user.name "ratuchairunisa"
+          git config --global user.email "ratuchairunisa2808@gmail.com"
+          git add processed/
+          git commit -m "Update processed dataset (auto)" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

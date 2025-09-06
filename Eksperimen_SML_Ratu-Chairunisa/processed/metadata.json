@@ -1,0 +1,17 @@
+{
+  "columns": [
+    "Bitcoin (USD)",
+    "Ethereum (USD)",
+    "Cardano (ADA)",
+    "Binance Coin (BNB)",
+    "Ripple (XRP)",
+    "Dogecoin (DOGE)",
+    "Solana (SOL)",
+    "Gold (USD per oz)"
+  ],
+  "n_past": 30,
+  "n_future": 30,
+  "val_ratio": 0.1,
+  "test_ratio": 0.1,
+  "input_rows": 3858
+}

@@ -1,0 +1,56 @@
+name: CI - Train, Build Docker & Push
+
+on:
+  workflow_dispatch:
+
+env:
+  IMAGE_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/crypto-forecast
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python & install mlflow
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.7'
+      - run: |
+          python -m pip install --upgrade pip
+          pip install mlflow docker
+
+      - name: Ensure conda exists
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: '3.12.7'
+          auto-activate-base: true
+
+      - name: Run MLflow Project (train) 
+        working-directory: MLProject
+        run: |
+          mlflow run . -e main -P input=processed/processed_data.npz -P output=artifacts -P epochs=30
+
+      - name: Read run_id into env
+        id: read_run
+        run: |
+          RUN_ID=$(cat MLProject/artifacts/run_id.txt)
+          echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
+
+      - name: Build docker image from MLflow model
+        run: |
+          IMAGE_NAME="${{ env.IMAGE_REPO }}:${{ github.sha }}"
+          echo "Building image $IMAGE_NAME from runs:/${RUN_ID}/model"
+          mlflow models build-docker -m "runs:/${RUN_ID}/model" -n "$IMAGE_NAME" --enable-mlserver
+          echo "## image built: $IMAGE_NAME" > image_name.txt
+        env:
+          RUN_ID: ${{ env.RUN_ID }}
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Push Docker image to Docker Hub
+        run: |
+          IMAGE_NAME="${{ env.IMAGE_REPO }}:${{ github.sha }}"
+          docker push "$IMAGE_NAME"

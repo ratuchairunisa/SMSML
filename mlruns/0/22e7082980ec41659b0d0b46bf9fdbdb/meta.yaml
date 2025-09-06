@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/22e7082980ec41659b0d0b46bf9fdbdb/artifacts
+end_time: 1756888968945
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 22e7082980ec41659b0d0b46bf9fdbdb
+run_name: rf_asset_2
+run_uuid: 22e7082980ec41659b0d0b46bf9fdbdb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756888951605
+status: 3
+tags: []
+user_id: ratuchairunisa

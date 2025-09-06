@@ -1,0 +1,21 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Prometheus self metrics
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:9095']
+
+  # Flask / MLflow model server
+  - job_name: 'model_server'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['host.docker.internal:5000']  # ganti sesuai port Flask app
+
+  # Optional: Prometheus exporter
+  - job_name: 'prometheus_exporter'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['host.docker.internal:8000']  # kalau belum ada bisa dihapus

@@ -1,0 +1,51 @@
+{
+  "input_file": "raw_dataset\\Crypto_Data_Since_2015.csv",
+  "columns": [
+    "Bitcoin (USD)",
+    "Ethereum (USD)",
+    "Cardano (ADA)",
+    "Binance Coin (BNB)",
+    "Ripple (XRP)",
+    "Dogecoin (DOGE)",
+    "Solana (SOL)",
+    "Gold (USD per oz)"
+  ],
+  "total_rows": 3858,
+  "splits": {
+    "train_samples": 3029,
+    "val_samples": 326,
+    "test_samples": 326
+  },
+  "shapes": {
+    "X_train": [
+      3029,
+      30,
+      8
+    ],
+    "Y_train": [
+      3029,
+      30,
+      8
+    ],
+    "X_val": [
+      326,
+      30,
+      8
+    ],
+    "Y_val": [
+      326,
+      30,
+      8
+    ],
+    "X_test": [
+      326,
+      30,
+      8
+    ],
+    "Y_test": [
+      326,
+      30,
+      8
+    ]
+  }
+}

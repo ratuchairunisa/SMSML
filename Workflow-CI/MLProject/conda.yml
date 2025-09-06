@@ -1,0 +1,14 @@
+name: crypto_ml_env
+channels:
+  - defaults
+dependencies:
+  - python=3.12.7
+  - pip
+  - pip:
+      - mlflow
+      - tensorflow==2.13.2
+      - numpy
+      - pandas
+      - scikit-learn
+      - joblib
+      - matplotlib
